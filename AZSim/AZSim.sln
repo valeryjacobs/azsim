@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AZSimAgent", "AZSimAgent\AZSimAgent.csproj", "{D249CD42-E04D-4438-AFF4-458164487F73}"
+EndProject
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "AZSimAgentJS", "AZSimAgentJS\AZSimAgentJS.njsproj", "{3E42BC49-13EC-46C5-BF3B-09FF9568E537}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D249CD42-E04D-4438-AFF4-458164487F73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D249CD42-E04D-4438-AFF4-458164487F73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D249CD42-E04D-4438-AFF4-458164487F73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D249CD42-E04D-4438-AFF4-458164487F73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E42BC49-13EC-46C5-BF3B-09FF9568E537}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E42BC49-13EC-46C5-BF3B-09FF9568E537}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E42BC49-13EC-46C5-BF3B-09FF9568E537}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E42BC49-13EC-46C5-BF3B-09FF9568E537}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A1ABD7AF-B148-4B62-9707-F2EA33B6A189}
+	EndGlobalSection
+EndGlobal

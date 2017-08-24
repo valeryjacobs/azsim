@@ -1,0 +1,16 @@
+{
+  "name": "azsim-agent-js",
+  "version": "0.0.1",
+  "description": "AZSimAgentJS",
+  "main": "app.js",
+  "author": {
+    "name": "Valery Jacobs"
+  },
+  "dependencies": {
+    "azure-iot-device-mqtt": "^1.1.6",
+    "colors": "^1.1.2",
+    "deepstream.io-client-js": "^2.1.1",
+    "figlet": "^1.2.0",
+    "systeminformation": "^3.18.0"
+  }
+}
