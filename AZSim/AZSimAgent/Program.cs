@@ -4,11 +4,18 @@ using System.Threading.Tasks;
 
 namespace AZSimAgent
 {
-    class Program
+    public static class Program
     {
-        static void Main(string[] args)
+        public static  void Main(string[] args)
         {
+            MainAsync(args).GetAwaiter().GetResult();
+
             Console.Read();
+        }
+
+        static Task MainAsync(string[] args)
+        {
+            return Exec();
         }
 
         async static Task Exec()

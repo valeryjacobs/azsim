@@ -1,0 +1,15 @@
+{
+  "name": "azsim-admin-console",
+  "version": "0.0.1",
+  "description": "AZSimAdminConsole",
+  "main": "app.js",
+  "author": {
+    "name": "valer"
+  },
+  "dependencies": {
+    "azure-iothub": "^1.1.11",
+    "colors": "^1.1.2",
+    "deepstream.io-client-js": "^2.1.1",
+    "figlet": "^1.2.0"
+  }
+}

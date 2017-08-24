@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DependancyBin\" />
+    <PackageReference Include="DeepStreamNet" Version="0.0.0.4-alpha" />
   </ItemGroup>
 
   <ItemGroup>
