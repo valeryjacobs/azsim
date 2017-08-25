@@ -1,0 +1,22 @@
+{
+  "name": "AzureIoTProfilerOrchestrator",
+  "version": "0.0.1",
+  "homepage": "https://github.com/valeryjacobs/AzureIoTProfiler",
+  "author": "Valery Jacobs",
+  "description": "Tool to test Azure IoT Services and IoT Architectures throughput and latency characteristics.",
+  "license": "MIT",
+  "private": false,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.4",
+    "knockout": "~3.3.0",
+    "deepstream.io-tools-ko": "https://github.com/deepstreamIO/deepstream.io-tools-ko.git",
+    "deepstream.io-client-js": "latest"
+  }
+}

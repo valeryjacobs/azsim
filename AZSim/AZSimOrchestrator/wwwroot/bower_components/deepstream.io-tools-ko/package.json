@@ -1,0 +1,32 @@
+{
+  "name": "deepstream.io-tools-ko",
+  "version": "0.0.6",
+  "description": "tools to integrate knockout.js with deepstream.io",
+  "main": "dist/ko-tools.min.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "node node_modules/jasmine-node/lib/jasmine-node/cli.js test-unit --captureExceptions"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hoxton-one/deepstream.io-tools-ko.git"
+  },
+  "devDependencies": {
+    "deepstream.io-client-js": "latest",
+    "grunt": "~0.4.5",
+    "grunt-contrib-concat": "0.5.1",
+    "grunt-contrib-uglify": "0.9.1",
+    "grunt-release": "^0.12.0",
+    "jasmine-core": "~2.1.2",
+    "jasmine-node": "1.14.5",
+    "knockout": "latest"
+  },
+  "author": "Wolfram Hempel",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hoxton-one/deepstream.io-tools-ko/issues"
+  },
+  "homepage": "http://deepstream.io"
+}

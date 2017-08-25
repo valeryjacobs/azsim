@@ -1,0 +1,38 @@
+{
+  "name": "deepstream.io-tools-ko",
+  "version": "0.0.6",
+  "homepage": "http://deepstream.io",
+  "authors": [
+    "Wolfram Hempel <hempel.wolfram@gmail.com>"
+  ],
+  "description": "The browser and node client for deepstream.io",
+  "main": "dist/ko-tools.min.js",
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "deepstream",
+    "realtime",
+    "streaming",
+    "ko",
+    "knockout"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "node_modules",
+    "bower_components",
+    "test",
+    "Gruntfile.js"
+  ],
+  "_release": "0.0.6",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.0.6",
+    "commit": "9eed5dd1c873efb8463a5e1fc4ef4fe40475e8c9"
+  },
+  "_source": "https://github.com/deepstreamIO/deepstream.io-tools-ko.git",
+  "_target": "*",
+  "_originalSource": "https://github.com/deepstreamIO/deepstream.io-tools-ko.git"
+}

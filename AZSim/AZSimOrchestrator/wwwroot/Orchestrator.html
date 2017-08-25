@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/deepstream.io-client-js/2.1.1/deepstream.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+</head>
+
+<body>
+  DeviceState: <input id="record" type="text"/>
+  Test frequency:
+  <input id="frequency" type="text"/><button type="button">Start test</button>
+  <script type="text/javascript">
+    var client = deepstream('ws://vjiotprofiler.westeurope.cloudapp.azure.com:6020').login()
+
+    var record = client.record.getRecord('some-name')
+
+     var input = document.querySelector('input')
+
+    
+    
+    var button = document.querySelector('button')
+
+
+    input.onkeyup = (function () {
+      record.set('firstname', input.value)
+      client.event.emit('device/connect', 'I am connected')
+    })
+
+    button.onclick = (function () {
+      client.rpc.make('simulation/control/start', { frequency: $("#frequency").val(), messageSize: 2000 }, (err, result) => {
+        // result == 20;
+      });
+    })
+
+    record.subscribe('firstname', function (value) {
+      input.value = value
+    })
+  </script>
+</body>
+
+</html>
