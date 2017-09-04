@@ -10,6 +10,7 @@
     "azure-iothub": "^1.1.11",
     "colors": "^1.1.2",
     "deepstream.io-client-js": "^2.1.1",
-    "figlet": "^1.2.0"
+    "figlet": "^1.2.0",
+    "uuid": "^2.0.1"
   }
 }

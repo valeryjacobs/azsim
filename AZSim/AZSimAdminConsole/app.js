@@ -6,6 +6,7 @@ var iotHub = require('azure-iothub');
 var secrets = require('./secrets.js');
 var figlet = require('figlet');
 var colors = require('colors');
+var uuid = require('uuid');
 
 const deepstream = require('deepstream.io-client-js')
 const dsClient = deepstream('ws://40.118.108.105:6020').login()
@@ -17,9 +18,22 @@ var registry = Registry.fromConnectionString(connectionString);
 var client = Client.fromConnectionString(connectionString);
 
 var provisionDevice = function (deviceId) {
-    var device = new iotHub.Device(null);
-    device.deviceId = deviceId;
-    console.log('im here');
+    //var device = new iotHub.Device(null);
+    //device.deviceId = deviceId;
+    
+
+    var device = {
+        deviceId: deviceId,
+        status: 'enabled',
+        authentication: {
+            symmetricKey: {
+                primaryKey: new Buffer(uuid.v4()).toString('base64'),
+                secondaryKey: new Buffer(uuid.v4()).toString('base64')
+            }
+        }
+    };
+
+
 
     registry.create(device, function (err, deviceInfo, res) {
 

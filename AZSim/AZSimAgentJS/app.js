@@ -70,6 +70,8 @@ function test() {
 
         var message = new Message(simulator.get('payload'));
 
+        message.
+
         client.sendEvent(message, printResultFor('send'));
         console.log('Sent message: '.cyan + message.getData().cyan);
     }

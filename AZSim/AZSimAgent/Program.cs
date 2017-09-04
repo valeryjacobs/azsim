@@ -29,7 +29,7 @@ namespace AZSimAgent
 
                 record["runtime"] = "console";
                 record["status"] = "waiting";
-                record["simulatorId"] = simulatorId;
+                record["simulatorId"] = simulatorId; 
                 record["frequency"] = 0;
                 record["payload"] = "";
                 record["runtime"] = "console";

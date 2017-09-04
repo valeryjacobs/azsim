@@ -9,7 +9,9 @@ Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "AZSimAgentJS", "AZSimAgentJ
 EndProject
 Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "AZSimAdminConsole", "AZSimAdminConsole\AZSimAdminConsole.njsproj", "{C83E709E-604C-4C39-94E7-DA4A56893D36}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AZSimOrchestrator", "AZSimOrchestrator\AZSimOrchestrator.csproj", "{F2CD2DEF-3464-4210-9876-DBE8E5DF44D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AZSimOrchestrator", "AZSimOrchestrator\AZSimOrchestrator.csproj", "{F2CD2DEF-3464-4210-9876-DBE8E5DF44D4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AZSimHostAgent", "AZSimHostAgent\AZSimHostAgent.csproj", "{5B828E7A-0167-41D5-B9EC-0958BA4DE89F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{F2CD2DEF-3464-4210-9876-DBE8E5DF44D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2CD2DEF-3464-4210-9876-DBE8E5DF44D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2CD2DEF-3464-4210-9876-DBE8E5DF44D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B828E7A-0167-41D5-B9EC-0958BA4DE89F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B828E7A-0167-41D5-B9EC-0958BA4DE89F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B828E7A-0167-41D5-B9EC-0958BA4DE89F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B828E7A-0167-41D5-B9EC-0958BA4DE89F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -7,13 +7,6 @@
 
   <ItemGroup>
     <PackageReference Include="DeepStreamNet" Version="0.0.0.4-alpha" />
-    <PackageReference Include="Microsoft.Azure.Devices.Client" Version="1.4.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="DeepStreamNet">
-      <HintPath>DependancyBin\DeepStreamNet.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>
