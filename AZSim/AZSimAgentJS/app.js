@@ -90,12 +90,17 @@ function startSimulation() {
 
     refreshIntervalId = setInterval(function () {
 
+        
         var payload = JSON.parse(simulator.get('payload'));
 
         payload.sensorA = measurementValue;
 
         var message = new Message(JSON.stringify(payload));
+
         console.log("Sending message: ".cyan + message.getData().cyan);
+        if (simulator.get('outputLog') == true) {
+            
+        }
 
         client.sendEvent(message, printResultFor('send'));
 

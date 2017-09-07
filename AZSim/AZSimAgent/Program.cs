@@ -1,12 +1,14 @@
 ﻿using DeepStreamNet;
+using DeepStreamNet.Contracts;
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace AZSimAgent
 {
     public static class Program
     {
-        public static  void Main(string[] args)
+        public static void Main(string[] args)
         {
             MainAsync(args).GetAwaiter().GetResult();
 
@@ -22,6 +24,9 @@ namespace AZSimAgent
         {
             string simulatorId = Guid.NewGuid().ToString();
             var client = new DeepStreamClient("40.118.108.105", 6020);
+            
+            var proc = await client.Rpcs.RegisterProviderAsync<string, string>("command", HandleCommand);
+
 
             if (await client.LoginAsync())
             {
@@ -29,7 +34,7 @@ namespace AZSimAgent
 
                 record["runtime"] = "console";
                 record["status"] = "waiting";
-                record["simulatorId"] = simulatorId; 
+                record["simulatorId"] = simulatorId;
                 record["frequency"] = 0;
                 record["payload"] = "";
                 record["runtime"] = "console";
@@ -52,6 +57,54 @@ namespace AZSimAgent
             }
 
             client.Dispose();
+        }
+
+        static async Task HandleCommand(string input, IRpcResponse<string> response)
+        {
+            if (string.IsNullOrEmpty(input))
+                response.Error("invalid input");
+
+            if (false)
+                response.Reject();
+
+            switch (input)
+            {
+                case "runProcess":
+                    RunProces  
+                    break;
+            }
+
+            response.Send(input);
+        }
+
+        static async Task<bool> RunProcess()
+        {
+            ProcessStartInfo psi = new ProcessStartInfo();
+            psi.FileName = "node";
+            psi.Arguments = @"C:\Code\azsim\AZSim\AZSimAgentJS\app.js";
+            psi.UseShellExecute = false;
+
+            psi.RedirectStandardOutput = true;
+            psi.RedirectStandardError = true;
+
+            Process proc = new Process
+            {
+                StartInfo = psi
+            };
+
+
+            proc.Start();
+
+            string error = proc.StandardError.ReadToEnd();
+
+            if (!string.IsNullOrEmpty(error))
+                return false;
+
+            string output = proc.StandardOutput.ReadToEnd();
+
+            proc.WaitForExit();
+
+            return true;
         }
     }
 }

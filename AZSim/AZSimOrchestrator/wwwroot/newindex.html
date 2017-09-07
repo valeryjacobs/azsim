@@ -9,6 +9,11 @@
     <link rel="stylesheet" href="https://bootswatch.com/4-alpha/darkly/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     <link href="css/custom.min.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/dad785c7eb.js"></script>
+    <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="bower_components/knockout/dist/knockout.debug.js"></script>
+    <script type="text/javascript" src="bower_components/deepstream.io-tools-ko/dist/ko-tools.js"></script>
+    <script type="text/javascript" src="bower_components/deepstream.io-client-js/dist/deepstream.js"></script>
+    <script type="text/javascript" src="src/app.js"></script>
 </head>
 <body>
     <nav class="navbar navbar-toggleable-md fixed-top navbar-inverse bg-primary">
@@ -33,6 +38,8 @@
                 </li>
             </ul>
         </div>
+        <span data-bind="text:status.message" />
+        <span data-bind="text:simulators.length" />
     </nav>
     <div class="container">
 
@@ -88,7 +95,7 @@
                 </div>
 
                 <div class="col-lg-8 col-md-7 col-sm-6">
-                    <h1>Simulations</h1>
+                    <h1><i class="fa fa-play-circle"></i> Simulations</h1>
                 </div>
                 <div class="row">
                     <table class="table table-striped table-hover table-bordered">
@@ -154,68 +161,100 @@
                     <div class="jumbotron col-lg-12">
                         <h2 class="display-4">Create simulation</h2>
                         <div class="btn-group-horizontal" data-toggle="buttons">
-                            <button class="btn btn-success" type="button" onclick="selectMainDiv('mainDivSimulation');">IoT Hub</button>
+                            <button class="btn btn-success" type="button" onclick="selectMainDiv('mainDivSimulation');">IoT Hub Client (IoT Device)</button>
                             <button class="btn btn-success" type="button">API</button>
                             <button class="btn btn-success" type="button">CosmosDB</button>
                         </div>
                     </div>
                 </div>
-
                 <div class="col-lg-8 col-md-7 col-sm-6">
-                    <h1>Simulator hosts</h1>
+                    <h1><i class="fa fa-th"></i> Simulators</h1>
                 </div>
                 <div class="row">
                     <table class="table table-striped table-hover table-bordered">
                         <thead class="thead-inverse">
                             <tr>
-                                <th>#</th>
-                                <th>Column heading</th>
-                                <th>Column heading</th>
-                                <th>Column heading</th>
+                                <th>ID</th>
+
+                                <th>Delete</th>
+                                <th>Reboot</th>
+                                <th>Update twin</th>
+                                <th>Twin patch</th>
+                                <th>Frequency</th>
+                                <th>Payload</th>
+                                <th>Primary key</th>
+                                <th>IoT Hub</th>
+                                <th>Runtime</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody data-bind="foreach: simulators.entries">
+
+                            <tr data-bind="css:{ active: isActive }, click: $parent.selectSimulator.bind($parent)">
+                                <td data-bind="text:simulatorId" />
+
+                                <td>
+                                    <button data-bind="click: provisionDevice" class="btn btn-primary">Provision</button>
+                                    <button data-bind="click: testSimulator" class="btn btn-primary">Test</button>
+                                    <button data-bind="click: startSimulator" class="btn btn-success">Start</button>
+                                    <button data-bind="click: stopSimulator" class="btn btn-warning">Stop</button>
+                                </td>
+
+                                <td>
+                                    <button data-bind="click: deleteSimulator" class="btn btn-danger">Delete</button>
+                                </td>
+                                <td>
+                                    <button data-bind="click: rebootSimulator" class="btn btn-danger">Reboot</button>
+                                </td>
+                                <td>
+                                    <button data-bind="click: updateTwin" class="btn btn-danger">Update twin</button>
+                                </td>
+                                <td>
+                                    <input data-bind="textInput: deviceTwin" type="text" />
+                                </td>
+                                <td>
+                                    <input style="width:40px" data-bind="textInput: frequency" type="text" />
+                                </td>
+                                <td>
+                                    <input data-bind="textInput: payload" type="text" />
+                                </td>
+                                <td data-bind="text:primaryKey"></td>
+                                <td data-bind="text:iotHubNamespace"></td>
+                                <td data-bind="text:runtime" />
+                                <td data-bind="text:status" />
+                            </tr>
+
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="col-lg-8 col-md-7 col-sm-6">
+                    <h1><i class="fa fa-th-large"></i> Simulator hosts</h1>
+                </div>
+                <div class="row">
+                    <table class="table table-striped table-hover table-bordered">
+                        <thead class="thead-inverse">
                             <tr>
-                                <td>1</td>
-                                <td>Column content</td>
-                                <td>Column content</td>
-                                <td>Column content</td>
+                                <th>Action</th>
+                                <th>ID</th>
+                                <th>Status</th>
+                                <th>Runtime</th>
+
                             </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Column content</td>
-                                <td>Column content</td>
-                                <td>Column content</td>
-                            </tr>
-                            <tr class="table-info">
-                                <td>3</td>
-                                <td>Column content</td>
-                                <td>Column content</td>
-                                <td>Column content</td>
-                            </tr>
-                            <tr class="table-success">
-                                <td>4</td>
-                                <td>Column content</td>
-                                <td>Column content</td>
-                                <td>Column content</td>
-                            </tr>
-                            <tr class="table-danger">
-                                <td>5</td>
-                                <td>Column content</td>
-                                <td>Column content</td>
-                                <td>Column content</td>
-                            </tr>
-                            <tr class="table-warning">
-                                <td>6</td>
-                                <td>Column content</td>
-                                <td>Column content</td>
-                                <td>Column content</td>
-                            </tr>
-                            <tr class="table-active">
-                                <td>7</td>
-                                <td>Column content</td>
-                                <td>Column content</td>
-                                <td>Column content</td>
+                        </thead>
+                        <tbody data-bind="foreach: simulatorHosts.entries">
+
+                            <tr data-bind="css:{ active: isActive }, click: $parent.selectSimulatorHost.bind($parent)">
+                                <td>
+                                    <button data-bind="click: runProcess" class="btn btn-success">Start process</button>
+
+                                    <button data-bind="click: deleteSimulatorHost" class="btn btn-danger">Delete</button>
+
+                                </td>
+                                <td data-bind="text:simulatorHostId" />
+                                <td data-bind="text:status" />
+                                <td data-bind="text:runtime" />
                             </tr>
                         </tbody>
                     </table>
@@ -231,40 +270,40 @@
                     </div>
                 </div>
             </div>
+
+
             <div id="mainDivSimulations">2</div>
+
+
             <div id="mainDivSimulation">
                 <div class="page-header">
                     <div class="row">
                         <div class="col-lg-12 col-md-8 col-sm-7">
-                            <h1>IoT Hub Simulation</h1>
+                            <h1>IoT Hub Client Device Simulation</h1>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-8">
                         <form lpformnum="1">
-                            <legend></legend>
+                         
                             <div class="form-group row">
                                 <label for="exampleInputEmail1">Simulation name</label>
-                                <input class="form-control lastpassClearHidden" id="simulationName" style='background-position: 98% 50%; background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAYAAABSO15qAAAAAXNSR0IArs4c6QAAAPhJREFUOBHlU70KgzAQPlMhEvoQTg6OPoOjT+JWOnRqkUKHgqWP4OQbOPokTk6OTkVULNSLVc62oJmbIdzd95NcuGjX2/3YVI/Ts+t0WLE2ut5xsQ0O+90F6UxFjAI8qNcEGONia08e6MNONYwCS7EQAizLmtGUDEzTBNd1fxsYhjEBnHPQNG3KKTYV34F8ec/zwHEciOMYyrIE3/ehKAqIoggo9inGXKmFXwbyBkmSQJqmUNe15IRhCG3byphitm1/eUzDM4qR0TTNjEixGdAnSi3keS5vSk2UDKqqgizLqB4YzvassiKhGtZ/jDMtLOnHz7TE+yf8BaDZXA509yeBAAAAAElFTkSuQmCC"); background-repeat: no-repeat; background-attachment: scroll; cursor: auto; background-size: 16px 18px;' type="text" placeholder="Enter simulation name">
+                                <input data-bind="textInput: simulation.name" class="form-control lastpassClearHidden" style='background-position: 98% 50%; background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAYAAABSO15qAAAAAXNSR0IArs4c6QAAAPhJREFUOBHlU70KgzAQPlMhEvoQTg6OPoOjT+JWOnRqkUKHgqWP4OQbOPokTk6OTkVULNSLVc62oJmbIdzd95NcuGjX2/3YVI/Ts+t0WLE2ut5xsQ0O+90F6UxFjAI8qNcEGONia08e6MNONYwCS7EQAizLmtGUDEzTBNd1fxsYhjEBnHPQNG3KKTYV34F8ec/zwHEciOMYyrIE3/ehKAqIoggo9inGXKmFXwbyBkmSQJqmUNe15IRhCG3byphitm1/eUzDM4qR0TTNjEixGdAnSi3keS5vSk2UDKqqgizLqB4YzvassiKhGtZ/jDMtLOnHz7TE+yf8BaDZXA509yeBAAAAAElFTkSuQmCC"); background-repeat: no-repeat; background-attachment: scroll; cursor: auto; background-size: 16px 18px;' type="text" placeholder="Enter simulation name">
                                 <small class="form-text text-muted" id="nameHelp">Only stored for reference.</small>
                             </div>
                             <div class="form-group row">
                                 <label for="exampleSelect1">Simulator preset</label>
-                                <select class="form-control" id="simulationType">
-                                    <option>1-Continuous event stream</option>
-                                    <option>2-Firmware upgrade</option>
-                                    <option>3-Connection failure</option>
-                                    <option>4-Random peaks</option>
-                                    <option>5-Roundtrip Latency</option>
+                                <select class="form-control" id="simulationType" data-bind="options: simulation.presets, optionsText: 'name',value:simulation.selectedPreset"></>
+                                   
                                 </select>
                                 <small class="form-text text-muted" id="presetHelp">Depending on simulator implementation.</small>
                             </div>
                             <div class="form-group row">
-                                <label >Preset config</label>
-                                <textarea class="form-control" id="presetConfig" rows="5">{"frequency":10,"connectionString","erwiuriwruioweruow"}</textarea>
+                                <label>Preset config</label>
+                                <textarea class="form-control" id="presetConfig" rows="5" data-bind="textInput: presetConfiguration" ></textarea>
                             </div>
-                           
+
                             <div class="form-group">
                                 <label for="exampleTextarea">Payload template</label>
                                 <label class="custom-file">
@@ -274,7 +313,7 @@
                             </div>
                             <div class="form-group row">
                                 <label>Payload template</label>
-                                <textarea class="form-control" id="presetConfig" rows="10">{"frequency":10,"connectionString","erwiuriwruioweruow"}</textarea>
+                                <textarea class="form-control" id="presetConfig" rows="10" data-bind="textInput: presetPayload"></textarea>
                             </div>
                             <div class="row">
                                 <div class="col-4">
@@ -327,12 +366,9 @@
 
 
             </div>
-        </div>
 
-        <!-- Optional JavaScript -->
-        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-        <script src="vendor/jquery/jquery.min.js"></script>
-        <script src="js/app.js"></script>
+            <div id=""></div>
+        </div>
         <script type="text/javascript">
 
             function selectMainDiv(mainDiv) {
@@ -348,10 +384,12 @@
 
             }
 
-            selectMainDiv("mainDivSimulation");
+            selectMainDiv("mainDivHome");
         </script>
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+    </div>
 </body>
+
 </html>

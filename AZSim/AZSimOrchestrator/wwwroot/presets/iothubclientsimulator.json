@@ -1,0 +1,21 @@
+﻿{
+  "presets": [
+    {
+      "name": "Preset1",
+      "configuration": {
+        "frequency": 10,
+        "namespace": "vjdemosiothub"
+      },
+      "payloadTemplate": "{\"sensorA\": 110, \"sensorB\": 110}"
+    },
+
+    {
+      "name": "Preset2",
+      "configuration": {
+        "frequency": 1,
+        "namespace": "vjdemosiothub"
+      },
+      "payloadTemplate": "{\"sensorA\": 0, \"sensorB\": 0}"
+    }
+  ]
+}
