@@ -1,3 +1,4 @@
+
 # AZ Sim
 
 This tool can be used to run load tests, demo's and other experiments on several Azure services (IoT Hub, CosmosDB, Web APIs and more to follow). The concept is to run a simulation host (daemon/console/container) in the a runtime environment of choice (local machine, Kubernetes on ACS, Azure Container Instances) and then spin-up simulators in, or under managegement by, that host.
@@ -18,5 +19,12 @@ To use the IoT Hub simulator the *DeviceManger* needs to be running (euther as a
 
 ## Security
 Connecting to the messaging hub (deepstream.io) the server must be configured to either use credentials for client to login or configure a path to a custom API that handles credentials validation and hands out a token for the client to connect to the messaging hub. Simulators don't need to be configured with secrets as they are provisioned through the messaging hun provisioning steps (handing out connection strings etc.)
+
+# Kubernetes hosting
+The repo includes yaml scripts for setting up simulators in a Kubernetes cluster. Memory sizes needed vary on the type of simulator and its configuration.
+
+# Azure Container Instances
+Using the script in the repo you can also use Azure Container Instances to spin up both a DeviceManager as well as the simulators (.NET of Node based).
+
 
 
