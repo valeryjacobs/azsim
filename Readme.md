@@ -16,7 +16,7 @@ Depending on the type of simulator it is capable of testing a specific Azure ser
 To use the IoT Hub simulator the *DeviceManger* needs to be running (euther as a console app or daemon) to manage the device registry.
 ![alt text](https://github.com/valeryjacobs/azsim/blob/master/docs/images/DeviceManager.PNG "AZSim dashboard")
 
-
-
+## Security
+Connecting to the messaging hub (deepstream.io) the server must be configured to either use credentials for client to login or configure a path to a custom API that handles credentials validation and hands out a token for the client to connect to the messaging hub. Simulators don't need to be configured with secrets as they are provisioned through the messaging hun provisioning steps (handing out connection strings etc.)
 
 
