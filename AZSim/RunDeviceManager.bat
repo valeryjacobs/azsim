@@ -1,0 +1,1 @@
+node ./DeviceManager/index.js

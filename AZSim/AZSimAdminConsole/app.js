@@ -20,8 +20,7 @@ var client = Client.fromConnectionString(connectionString);
 var provisionDevice = function (deviceId) {
     //var device = new iotHub.Device(null);
     //device.deviceId = deviceId;
-    
-
+ 
     var device = {
         deviceId: deviceId,
         status: 'enabled',
@@ -32,8 +31,6 @@ var provisionDevice = function (deviceId) {
             }
         }
     };
-
-
 
     registry.create(device, function (err, deviceInfo, res) {
 
@@ -71,17 +68,12 @@ var provisionDevice = function (deviceId) {
                     twin.update(twinPatch, function (err, twin) {
                         if (err) {
                             console.error(err.message);
-                        } else {
-                        }
+                        } 
                     });
-
 
                     printDeviceInfo(err, deviceInfo, res);
                 }
             });
-
-
-
         }
     })
 }
@@ -123,7 +115,7 @@ var startRebootDevice = function (deviceId) {
 var queryTwinLastReboot = function () {
     registry.getTwin(deviceToReboot, function (err, twin) {
 
-        if (twin.properties.reported.iothubDM != null) {
+        if (twin.properties.reported.iothubDM !== null) {
             if (err) {
                 console.error('Could not query twins: ' + err.constructor.name + ': ' + err.message);
             } else {

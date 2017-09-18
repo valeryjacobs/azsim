@@ -23,11 +23,14 @@ namespace AZSimHostAgent
 
         async static Task Exec()
         {
+            Console.WriteLine("Connecting...");
             string simulatorHostId = Guid.NewGuid().ToString();
             var client = new DeepStreamClient("40.118.108.105", 6020);
 
             if (await client.LoginAsync())
             {
+                Console.WriteLine("Connection to hub established");
+                Console.WriteLine("Registered as simulator host " + simulatorHostId);
                 await client.Rpcs.RegisterProviderAsync<string, string>(simulatorHostId, HandleCommand);
                 record = await client.Records.GetRecordAsync(simulatorHostId);
 
@@ -37,15 +40,7 @@ namespace AZSimHostAgent
 
                 var list = await client.Records.GetListAsync("simulatorhosts");
 
-                list.Add(simulatorHostId);
-                //var record = await client.Records.GetListAsync.(hostAgentId);
-                //record["ID"] = hostAgentId;
-                //record["Type"] = "Local PC";
-                //record["Location"] = "Europe";
-                //record["IPAddress"] = "10.0.0.1";
-                //record["CPUCapacity"] = "10";
-
-
+                list.Add(simulatorHostId);  
             }
         }
 
@@ -65,22 +60,10 @@ namespace AZSimHostAgent
                 StartInfo = psi
             };
 
-
             proc.Start();
-            //proc.WaitForExit();
-
-
-            //switch (input.command)
-            //{
-            //    case "runNodeApp":
-            //await RunProcess(input);
-            //        break;
-            //}
-          
-
+  
             response.Send("Process completed");
             record["status"] = "Completed";
         }
-
     }
 }

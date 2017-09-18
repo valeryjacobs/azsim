@@ -1,0 +1,1 @@
+az group deployment create -n azsimdeploy --template-file azsimazuredeploy.json --parameters @azsimazuredeploy.parameters.json -g AzureSim

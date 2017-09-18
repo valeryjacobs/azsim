@@ -24,7 +24,7 @@ namespace AZSimAgent
         {
             string simulatorId = Guid.NewGuid().ToString();
             var client = new DeepStreamClient("40.118.108.105", 6020);
-            
+
             var proc = await client.Rpcs.RegisterProviderAsync<string, string>("command", HandleCommand);
 
 
@@ -70,7 +70,7 @@ namespace AZSimAgent
             switch (input)
             {
                 case "runProcess":
-                    RunProces  
+                    await RunProcess();
                     break;
             }
 
@@ -92,7 +92,6 @@ namespace AZSimAgent
                 StartInfo = psi
             };
 
-
             proc.Start();
 
             string error = proc.StandardError.ReadToEnd();
@@ -102,7 +101,10 @@ namespace AZSimAgent
 
             string output = proc.StandardOutput.ReadToEnd();
 
-            proc.WaitForExit();
+            await Task.Run(() =>
+                {
+                    proc.WaitForExit();
+                });
 
             return true;
         }

@@ -1,0 +1,18 @@
+} } } } ], "osType": "Linux", "ipAddress": {
+	"type": "Public",
+	"ports": [
+		{
+			"protocol": "tcp",
+			"port": "[parameters('port1')]"
+		},
+		{
+			"protocol": "tcp",
+			"port": "[parameters('port2')]"
+		}
+	]
+} } } ], "outputs": {
+	"containerIPv4Address": {
+		"type": "string",
+		"value": "[reference(resourceId('Microsoft.ContainerInstance/containerGroups/', parameters('name'))).ipAddress.ip]"
+	}
+} }

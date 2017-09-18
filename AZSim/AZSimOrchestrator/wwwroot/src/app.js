@@ -1,4 +1,5 @@
 ds = deepstream('ws://40.118.108.105:6020');
+//ds = deepstream('ws://localhost:6020');
 //ds = deepstream('wss://154.deepstreamhub.com?apiKey=b63570d7-d7a3-40a0-adb8-51d810024e3a');
 
 koTools = new KoTools(ko);
@@ -44,6 +45,10 @@ function setupChart() {
     });
 }
 
+$('#listtable').on('click', '.clickable-row', function (event) {
+    $(this).addClass('active').siblings().removeClass('active');
+});
+
 /**
  * Class AppViewModel
  */
@@ -61,37 +66,47 @@ AppViewModel = function () {
     this.node = new NodeViewModel();
     this.status = new StatusViewModel();
 
-    this.presetConfiguration = ko.computed(function () {
-        if (this.simulation.selectedPreset() === undefined) {
-            return "error";
-        }
-        else {
-            var json = JSON.stringify(this.simulation.selectedPreset());//.replace(/\\/g, "");
 
-            configobj = JSON.parse(json).configuration;
-            return JSON.stringify(configobj);
+    this.noSimulations = ko.computed(function () {
+        var mlist = ds.record.getList('simulations');
+        var entr = mlist.getEntries();
 
-        }
-    }, this);
+        return entr.length;
+    }); 
+    
+   
+};
 
-    this.presetPayload = ko.computed(function () {
-        if (this.simulation.selectedPreset() === undefined) {
-            return "error";
-        }
-        else {
-            var json = JSON.stringify(this.simulation.selectedPreset());//.replace(/\\/g, "");
+AppViewModel.prototype.loadPreset = function () {
+    var json = JSON.stringify(this.simulation.selectedPreset());
+    presetObj = JSON.parse(json);
 
-            payloadObj = JSON.parse(json).payloadTemplate;
-            return JSON.stringify(payloadObj);
-        }
-    }, this);
+    var cJSON = JSON.stringify(presetObj.configuration);
+    var pJSON = presetObj.payloadTemplate;
+
+   // this.simulation..configuration('test');
+    this.simulation.record.set('configuration',cJSON);
+    //this.simulation.payload(presetObj.payloadTemplate);
 };
 
 AppViewModel.prototype.addSimulation = function () {
-    var newSimulationId = 'Simulation-' + ds.getUid();
-    var record = ds.record.getRecord(newSimulationId);
-    record.set({ simulationId: newSimulationId, noNodes: 10, noSimulators: 100000, frequency: 5 });
-    this.simulations.getList().addEntry(newSimulationId);
+   // selectMainDiv('mainDivSimulation');
+  //  var newSimulationId = 'Simulation-' + ds.getUid();
+   // var record = ds.record.getRecord(newSimulationId);
+   // record.set('configuration', '{default:null}');
+     // koTools.getObservable(record, 'configuration');
+   // this.simulations.getList().addEntry(newSimulationId);
+    selectMainDiv('mainDivSimulation');
+    var name = 'simulation-' + ds.getUid(),
+        record = ds.record.getRecord(name);
+
+    record.set({simulationId:name, configuration: 'testconfig', payload: 'payloadtemplate1',status:'-',startTime:'now', endTime:'later'});
+    this.simulations.getList().addEntry(name);
+
+    this.simulation.record.setName(name);
+
+   // this.simulation.record = record;
+
 };
 
 AppViewModel.prototype.startSimulator = function () {
@@ -124,19 +139,21 @@ AppViewModel.prototype.addUser = function () {
     this.users.getList().addEntry(name);
 };
 
-AppViewModel.prototype.selectUser = function (userAppViewModel) {
-    this.user.record.setName(userAppViewModel.record.name);
-    this.users.callOnEntries('isActive', [false]);
-    userAppViewModel.isActive(true);
+//AppViewModel.prototype.selectUser = function (userAppViewModel) {
+//    this.user.record.setName(userAppViewModel.record.name);
+//    this.users.callOnEntries('isActive', [false]);
+//    userAppViewModel.isActive(true);
 
-};
+//};
 
 AppViewModel.prototype.selectSimulation = function (simulationAppViewModel) {
     this.simulation.record.setName(simulationAppViewModel.record.name);
     this.users.callOnEntries('isActive', [false]);
     simulationAppViewModel.isActive(true);
 
-    setupChart();
+
+    selectMainDiv('mainDivSimulation');
+    //setupChart();
 };
 
 AppViewModel.prototype.selectSimulator = function (simulatorAppViewModel) {
@@ -157,8 +174,8 @@ AppViewModel.prototype.selectSimulatorHost = function (simulatorHostAppViewModel
  * Class UserListEntryViewModel
  */
 StatusViewModel = function () {
-    this.message = ko.observable("hallo init");
-    this.message = ko.observable("hallo init");
+    this.message = ko.observable("Ready");
+    
 
 };
 UserListEntryViewModel = function (userRecordName, viewList) {
@@ -173,9 +190,11 @@ UserListEntryViewModel = function (userRecordName, viewList) {
 SimulationListEntryViewModel = function (simulationRecordId, viewList) {
     this.record = ds.record.getRecord(simulationRecordId);
     this.viewList = viewList;
+    this.name = koTools.getObservable(this.record, 'name');
     this.simulationId = koTools.getObservable(this.record, 'simulationId');
-    this.startTimeStamp = koTools.getObservable(this.record, 'startTimeStamp');
-    this.endTimeStamp = koTools.getObservable(this.record, 'endTimeStamp');
+    this.startTime = koTools.getObservable(this.record, 'startTimeStamp');
+    this.endTime = koTools.getObservable(this.record, 'endTimeStamp');
+    this.status = koTools.getObservable(this.record, 'status');
     this.selectedPreset = ko.observable();
 
     this.isActive = ko.observable(false);
@@ -260,6 +279,13 @@ SimulatorListEntryViewModel.prototype.deleteSimulator = function (viewModel, eve
     });
 };
 
+SimulationListEntryViewModel.prototype.deleteSimulation = function (viewModel, event) {
+    event.stopPropagation();
+    console.log('Delete: ' + this.record.name);
+    this.viewList.getList().removeEntry(this.record.name);
+    this.record.delete();
+};
+
 SimulatorListEntryViewModel.prototype.rebootSimulator = function (viewModel, event) {
     event.stopPropagation();
     console.log('Reboot: ' + this.record.name);
@@ -321,12 +347,48 @@ SimulatorHostListEntryViewModel.prototype.deleteSimulatorHost = function (viewMo
 SimulationViewModel = function () {
     this.record = ds.record.getAnonymousRecord();
     this.simulationId = koTools.getObservable(this.record, 'simulationId');
+    this.name = koTools.getObservable(this.record, 'name');
     this.startTimeStamp = koTools.getObservable(this.record, 'startTimeStamp');
     this.endTimeStamp = koTools.getObservable(this.record, 'endTimeStamp');
     this.noSimulators = koTools.getObservable(this.record, 'noSimulators');
+    this.payload = koTools.getObservable(this.record, 'payload');
+    this.configuration = koTools.getObservable(this.record, 'configuration');
     this.presets = iothubClientSimulatorPresets.presets;
     this.selectedPreset = ko.observable();
-    this.payload = koTools.getObservable(this.record, 'payload');
+
+ 
+    //this.configuration = ko.computed({
+    //    read: function () {
+    //        $('#presetInputWarning').hide();
+
+    //        if (this.configuration() === undefined) {
+    //            return "error";
+    //        }
+    //        else {
+    //            var json = JSON.stringify(this.simulation.selectedPreset());//.replace(/\\/g, "");
+
+    //            configobj = JSON.parse(json).configuration;
+    //            return JSON.stringify(configobj);
+
+    //        }
+    //    },
+    //    write: function (value) {
+    //        var json = JSON.stringify(this.simulation.selectedPreset());
+    //        presetobj = JSON.parse(json);
+    //        try {
+    //            presetobj.configuration = JSON.parse(value);
+    //        }
+    //        catch (ex) {
+    //            $('#presetInputWarning').show();
+    //            return;
+    //        }
+
+    //        $('#presetInputWarning').hide();
+
+    //        this.simulation.selectedPreset(presetobj);
+    //    },
+    //    owner: this
+    //});
 };
 
 

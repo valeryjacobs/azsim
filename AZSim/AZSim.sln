@@ -11,7 +11,25 @@ Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "AZSimAdminConsole", "AZSimA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AZSimOrchestrator", "AZSimOrchestrator\AZSimOrchestrator.csproj", "{F2CD2DEF-3464-4210-9876-DBE8E5DF44D4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AZSimHostAgent", "AZSimHostAgent\AZSimHostAgent.csproj", "{5B828E7A-0167-41D5-B9EC-0958BA4DE89F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AZSimHostAgent", "AZSimHostAgent\AZSimHostAgent.csproj", "{5B828E7A-0167-41D5-B9EC-0958BA4DE89F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AZSimContainers", "AZSimContainers", "{3D09384E-EC14-4199-9E58-9437DEC212C0}"
+	ProjectSection(SolutionItems) = preProject
+		AZSimContainers\Dockerfile = AZSimContainers\Dockerfile
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Kubernetes", "Kubernetes", "{E0A8008F-7DE2-4C7C-B18B-1138C0C6ADF0}"
+	ProjectSection(SolutionItems) = preProject
+		AZSimContainers\KubernetesDeployments\LimitRange.yaml = AZSimContainers\KubernetesDeployments\LimitRange.yaml
+		AZSimContainers\KubernetesDeployments\repcont.yaml = AZSimContainers\KubernetesDeployments\repcont.yaml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AzureContainerInstances", "AzureContainerInstances", "{A60E9490-8F35-4E3C-954F-138AB05918A9}"
+	ProjectSection(SolutionItems) = preProject
+		AZCliScript.bat = AZCliScript.bat
+		azuredeploy.json = azuredeploy.json
+		azuredeploy.parameters.json = azuredeploy.parameters.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,6 +60,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E0A8008F-7DE2-4C7C-B18B-1138C0C6ADF0} = {3D09384E-EC14-4199-9E58-9437DEC212C0}
+		{A60E9490-8F35-4E3C-954F-138AB05918A9} = {3D09384E-EC14-4199-9E58-9437DEC212C0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A1ABD7AF-B148-4B62-9707-F2EA33B6A189}

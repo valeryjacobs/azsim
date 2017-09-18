@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: azureiotsimulations2
+spec:
+  containers:
+  - name: azureiotsimulator
+    image: valeryjacobs/azureiotsimulator
+    resources:
+      requests:
+        memory: "23Mi"
+        cpu: "2m"
+      limits:
+        memory: "26Mi"
+        cpu: "80m"

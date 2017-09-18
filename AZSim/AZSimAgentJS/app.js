@@ -7,6 +7,7 @@ var si = require('systeminformation');
 var Message = require('azure-iot-device').Message;
 
 var measurementValue = 0;
+var logOutputEnabled = false;
 
 var client;
 var refreshIntervalId;
@@ -46,7 +47,10 @@ dsClient.rpc.provide(simulatorId, (data, response) => {
 
     simulator = dsClient.record.getRecord(simulatorId);
 
+    appendLog('Received request for action: ' + data.action);
+
     if (data.action === 'test') {
+
         test();
     }
     else if (data.action === 'start') {
@@ -59,6 +63,8 @@ dsClient.rpc.provide(simulatorId, (data, response) => {
     else if (data.action === 'delete') {
         process.exit();
     }
+
+    appendLog('Executed action: ' + data.action);
 });
 
 function test() {
@@ -72,10 +78,19 @@ function test() {
 
         message.
 
-        client.sendEvent(message, printResultFor('send'));
+        client.sendEvent(message, callBack('send'));
         console.log('Sent message: '.cyan + message.getData().cyan);
+        appendLog('Message send ' + message.getData());
     }
 }
+
+function appendLog(output)
+{
+    if (logOutputEnabled) {
+        simulator['log'] = simulator['log'] + '\n\r' + output;
+    }
+};
+
 
 function startSimulation() {
 
@@ -98,34 +113,45 @@ function startSimulation() {
         var message = new Message(JSON.stringify(payload));
 
         console.log("Sending message: ".cyan + message.getData().cyan);
-        if (simulator.get('outputLog') == true) {
-            
+        if (simulator.get('outputLog') === true) {
+            logOutputEnabled = true;
         }
 
-        client.sendEvent(message, printResultFor('send'));
+        client.sendEvent(message, callBack('send'));
 
     }, simulator.get('frequency') * 1000);
 }
 
-function printResultFor(op) {
+function callBack(operation) {
     return function printResult(err, res) {
-        if (err) console.log(op + ' error: ' + err.toString());
-        if (res) console.log(op + ' status: ' + res.constructor.name);
+  
+        if (err) {
+            console.log(operation + ': ' + err.toString());
+            appendLog(operation + ': ' + err.toString());
+        }
+
+        if (res) {
+            console.log(operation + ': ' + res.constructor.name);
+            appendLog(operation + ': ' + res.constructor.name);
+        }
     };
 }
 
 var connectCallback = function (err) {
     if (err) {
         console.log('Could not connect: ' + err);
+        appendLog('Could not connect: ' + err);
     } else {
-        console.log('Simulator connected. Awaiting instructions...');
+        var msg = 'Simulator connected. Awaiting instructions...';
+        console.log(msg);
+        appendLog(msg);
         client.onDeviceMethod('reboot', onReboot);
     }
 };
 
 
 var onReboot = function (request, response) {
-
+    appendLog('Reboot requested');
     // Respond the cloud app for the direct method
     response.send(200, 'Reboot started', function (err) {
         if (!err) {
@@ -160,4 +186,5 @@ var onReboot = function (request, response) {
 
     // Add your device's reboot API for physical restart.
     console.log('Rebooting!'.red);
+    appendLog('Reboot initiated...');
 };
