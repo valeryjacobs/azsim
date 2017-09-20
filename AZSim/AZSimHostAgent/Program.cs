@@ -23,9 +23,9 @@ namespace AZSimHostAgent
 
         async static Task Exec()
         {
-            Console.WriteLine("Connecting...");
+            Console.WriteLine("Connecting to " + Environment.GetEnvironmentVariable("AZSIM_ComHub_IP") + "...");
             string simulatorHostId = Guid.NewGuid().ToString();
-            var client = new DeepStreamClient("40.118.108.105", 6020);
+            var client = new DeepStreamClient(Environment.GetEnvironmentVariable("AZSIM_ComHub_IP"), 6020);
 
             if (await client.LoginAsync())
             {

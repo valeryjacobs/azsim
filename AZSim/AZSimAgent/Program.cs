@@ -23,7 +23,7 @@ namespace AZSimAgent
         async static Task Exec()
         {
             string simulatorId = Guid.NewGuid().ToString();
-            var client = new DeepStreamClient("40.118.108.105", 6020);
+            var client = new DeepStreamClient(Environment.GetEnvironmentVariable("AZSIM_ComHub_IP"), 6020);
 
             var proc = await client.Rpcs.RegisterProviderAsync<string, string>("command", HandleCommand);
 

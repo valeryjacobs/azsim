@@ -1,622 +1,370 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-
 <head>
-
+    <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>AZSim - Azure Simulator</title>
-
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
-    <link href="dist/css/sb-admin-2.css" rel="stylesheet">
-    <link href="vendor/morrisjs/morris.css" rel="stylesheet">
-    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>AZSim Azure Simulator</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link href="css/custom.min.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/dad785c7eb.js"></script>
     <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="bower_components/knockout/dist/knockout.debug.js"></script>
     <script type="text/javascript" src="bower_components/deepstream.io-tools-ko/dist/ko-tools.js"></script>
     <script type="text/javascript" src="bower_components/deepstream.io-client-js/dist/deepstream.js"></script>
     <script type="text/javascript" src="src/app.js"></script>
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
 </head>
-
 <body>
+    <nav class="navbar navbar-toggleable-md fixed-top navbar-inverse bg-primary">
+        <button class="navbar-toggler navbar-toggler-right" aria-expanded="false" aria-controls="navbarColor01" aria-label="Toggle navigation" type="button" data-toggle="collapse" data-target="#navbarColor01">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="#">AZSim</a>
 
-    <div id="wrapper">
+        <div class="collapse navbar-collapse" id="navbarColor01">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#" onclick="selectMainDiv('mainDivHome');"><i class="fa fa-home fa-2x pull-left"></i>Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="selectMainDiv('mainDivSimulations');"><i class="fa fa-play-circle fa-2x pull-left"></i>Simulations</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fa fa-cog fa-2x pull-left"></i>Config</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fa fa-info fa-2x pull-left"></i>Info</a>
+                </li>
+            </ul>
+        </div>
+        <span data-bind="text:status.message" />
+        <span data-bind="text:simulators.length" />
+    </nav>
+    <div class="container">
 
-        <!-- Navigation -->
-        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="index.html">Azure IoT Profiler - Device Simulator</a>
-            </div>
-            <!-- /.navbar-header -->
+        <!--Main Divs-->
+        <div>
+            <div id="mainDivHome">
+                <div class="page-header">
+                    <div class="row">
+                        <div class="col-lg-8 col-md-7 col-sm-6">
+                            <h1>Overview</h1>
 
-            <ul class="nav navbar-top-links navbar-right">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="bs-component">
+                            <div class="card card-inverse card-success text-xs-center">
+                                <div class="card-block">
+                                    <blockquote class="card-blockquote">
+                                        <p><i class="fa fa-play-circle fa-3x pull-left"></i><h1><span data-bind="text:noSimulations"></span></h1> Active simulations</p>
 
-                <!-- /.dropdown -->
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-tasks fa-fw"></i> <i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-tasks">
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <p>
-                                        <strong>Simulation 1</strong>
-                                        <span class="pull-right text-muted">40% Complete</span>
-                                    </p>
-                                    <div class="progress progress-striped active">
-                                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"
-                                            style="width: 40%">
-                                            <span class="sr-only">40% Complete (success)</span>
+                                    </blockquote>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="bs-component">
+                            <div class="card card-inverse card-success text-xs-center">
+                                <div class="card-block">
+                                    <blockquote class="card-blockquote">
+                                        <p><i class="fa fa-server fa-3x pull-left"></i><h1>4</h1>Simulation hosts</p>
+
+                                    </blockquote>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="bs-component">
+                            <div class="card card-inverse card-warning text-xs-center">
+                                <div class="card-block">
+                                    <blockquote class="card-blockquote">
+                                        <p><i class="fa fa-exclamation-circle fa-3x pull-left"></i><h1>1</h1>Alerts</p>
+
+                                    </blockquote>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-lg-8 col-md-7 col-sm-6">
+                    <h1><i class="fa fa-play-circle"></i> Simulations</h1>
+                </div>
+                <div class="row">
+                    <table class="table table-striped table-hover table-bordered" id="listtable">
+                        <thead class="thead-inverse">
+                            <tr>
+                                <th>Delete</th>
+                                <th>Name</th>
+                                <th>ID</th>
+                                <th>Status</th>
+                                <th>Start</th>
+                                <th>End</th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach: simulations.entries">
+                            <tr style="cursor:pointer" data-bind="css:{ active: isActive }, click: $parent.selectSimulation.bind($parent)">
+                                <td><button data-bind="click: deleteSimulation" class="btn btn-danger">Delete</button></td>
+                                <td data-bind="text:name" />
+                                <td data-bind="text:simulationId" />
+                                <td data-bind="text:status" />
+                                <td data-bind="text:startTime" />
+                                <td data-bind="text:endTime" />
+
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+                <div class="row">
+                    <div class="jumbotron  col-lg-12">
+                        <h1 class="display-4">Create simulation</h1>
+                        <div class="btn-group-horizontal" data-toggle="buttons">
+                            <button class="btn btn-success" type="button" data-bind="click: addSimulation">IoT Hub Client (IoT Device)</button>
+                            <button class="btn btn-success" type="button">API</button>
+                            <button class="btn btn-success" type="button">CosmosDB</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-7 col-sm-6">
+                    <h1><i class="fa fa-th"></i> Simulators</h1>
+                </div>
+                <div class="row">
+                    <table class="table table-striped table-hover table-bordered">
+                        <thead class="thead-inverse">
+                            <tr>
+                                <th>ID</th>
+                                <th></th>
+                                <th></th>
+                                <th>Twin patch</th>
+                                <th>Frequency</th>
+                                <th>Payload</th>
+                                <th style="max-width:100px">Primary key</th>
+                                <th>IoT Hub</th>
+                                <th>Runtime</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach: simulators.entries">
+
+                            <tr style="cursor:pointer" data-bind="css:{ active: isActive }, click: $parent.selectSimulator.bind($parent)">
+                                <td data-bind="text:simulatorId" />
+                                <td><button data-bind="click: deleteSimulator" class="btn btn-danger">Delete</button></td>
+                                <td>
+                                    <div class="dropdown">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Operations
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <a class="dropdown-item" data-bind="click: provisionDevice" href="#">Provision</a>
+                                            <a class="dropdown-item" data-bind="click: testSimulator" href="#">Test</a>
+                                            <a class="dropdown-item" data-bind="click: startSimulator" href="#">Start</a>
+                                            <a class="dropdown-item" data-bind="click: stopSimulator" href="#">Stop</a>
+                                            <a class="dropdown-item" data-bind="click: updateTwin" href="#">Update twin</a>
+                                            <a class="dropdown-item" data-bind="click: rebootSimulator" href="#">Reboot</a>
+
                                         </div>
                                     </div>
 
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a class="text-center" href="#">
-                                <strong>See All Simulations</strong>
-                                <i class="fa fa-angle-right"></i>
-                            </a>
-                        </li>
-                    </ul>
-                    <!-- /.dropdown-tasks -->
-                </li>
-                <!-- /.dropdown -->
+                                </td>
 
-                <!-- /.dropdown -->
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
-                        </li>
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
-                        </li>
-                        <li class="divider"></li>
-                        <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-                        </li>
-                    </ul>
-                    <!-- /.dropdown-user -->
-                </li>
-                <!-- /.dropdown -->
-            </ul>
-            <!-- /.navbar-top-links -->
 
-            <div class="navbar-default sidebar" role="navigation">
-                <div class="sidebar-nav navbar-collapse">
-                    <ul class="nav" id="side-menu">
-                        <li>
-                            <a onclick="selectMainDiv('mainDivDashboard');"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
-                        </li>
-                        <li>
-                            <a onclick="selectMainDiv('mainDivConfig');"><i class="fa fa-edit fa-fw"></i> Configuration</a>
-                        </li>
-                        <li>
-                            <a onclick="selectMainDiv('mainDivPastSimulations');"><i class="fa fa-bar-chart-o fa-fw"></i>Past Simulations<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="flot.html">Flot Charts</a>
-                                </li>
-                                <li>
-                                    <a href="morris.html">Morris.js Charts</a>
-                                </li>
-                            </ul>
-                            <!-- /.nav-second-level -->
-                        </li>
-                        <!--<li>
-                            <a href="tables.html"><i class="fa fa-table fa-fw"></i> Tables</a>
-                        </li>-->
-                    </ul>
+                                <td>
+                                    <input data-bind="textInput: deviceTwin" type="text" />
+                                </td>
+                                <td>
+                                    <input style="width:40px" data-bind="textInput: frequency" type="text" />
+                                </td>
+                                <td>
+                                    <input data-bind="textInput: payload" type="text" />
+                                </td>
+                                <td data-bind="text:primaryKey().substring(0,6) + '...'"></td>
+                                <td data-bind="text:iotHubNamespace"></td>
+                                <td data-bind="text:runtime" />
+                                <td data-bind="text:status" />
+                            </tr>
+
+
+                        </tbody>
+                    </table>
                 </div>
-                <!-- /.sidebar-collapse -->
+
+                <div class="col-lg-8 col-md-7 col-sm-6">
+                    <h1><i class="fa fa-th-large"></i> Simulator hosts</h1>
+                </div>
+                <div class="row">
+                    <table class="table table-striped table-hover table-bordered">
+                        <thead class="thead-inverse">
+                            <tr>
+                                <th>Action</th>
+                                <th>ID</th>
+                                <th>Status</th>
+                                <th>Runtime</th>
+
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach: simulatorHosts.entries">
+
+                            <tr style="cursor:pointer" data-bind="css:{ active: isActive }, click: $parent.selectSimulatorHost.bind($parent)">
+                                <td>
+                                    <button data-bind="click: runProcess" class="btn btn-success">Create simulator</button>
+
+                                    <button data-bind="click: deleteSimulatorHost" class="btn btn-danger">Delete</button>
+
+                                </td>
+                                <td data-bind="text:simulatorHostId" />
+                                <td data-bind="text:status" />
+                                <td data-bind="text:runtime" />
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <div class="jumbotron col-lg-12">
+                        <h2 class="display-4">Create simulation host</h2>
+                        <div class="btn-group-horizontal" data-toggle="buttons">
+                            <button class="btn btn-success" type="button">Local machine</button>
+                            <button class="btn btn-success" type="button">Kubernetes</button>
+                            <button class="btn btn-success" type="button">Azure Container Instances</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <!-- /.navbar-static-side -->
-        </nav>
 
-        <!--Main DIV Dashboard-->
-        <div id="page-wrapper">
-            <div id="mainDivDashboard">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h1 class="page-header">Dashboard</h1>
-                    </div>
-                    <!-- /.col-lg-12 -->
-                </div>
-                <!-- /.row -->
-                <div class="row">
-                    <div class="col-lg-3 col-md-6">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-comments fa-5x"></i>
-                                    </div>
-                                    <div class="col-xs-9 text-right">
-                                        <div class="huge"><span data-bind="text:simulators.length" /></div>
-                                        <div>Simulators</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="#">
-                                <div class="panel-footer">
-                                    <span class="pull-left">View Details</span>
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="panel panel-green">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-tasks fa-5x"></i>
-                                    </div>
-                                    <div class="col-xs-9 text-right">
-                                        <div class="huge">12</div>
-                                        <div>Running</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="#">
-                                <div class="panel-footer">
-                                    <span class="pull-left">View Details</span>
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="panel panel-yellow">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-shopping-cart fa-5x"></i>
-                                    </div>
-                                    <div class="col-xs-9 text-right">
-                                        <div class="huge">124</div>
-                                        <div>Finished!</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="#">
-                                <div class="panel-footer">
-                                    <span class="pull-left">View Details</span>
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="panel panel-red">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-support fa-5x"></i>
-                                    </div>
-                                    <div class="col-xs-9 text-right">
-                                        <div class="huge">1</div>
-                                        <div>Failed</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="#">
-                                <div class="panel-footer">
-                                    <span class="pull-left">View Details</span>
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </a>
+
+            <div id="mainDivSimulations">2</div>
+
+
+            <div id="mainDivSimulation">
+                <div class="page-header">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-8 col-sm-7">
+                            <h1><i onclick="selectMainDiv('mainDivHome');" style="padding-right:10px;cursor:pointer" class="fa fa-arrow-circle-o-left" aria-hidden="true"></i>IoT Hub Client Device Simulation</h1>
                         </div>
                     </div>
                 </div>
-                <!-- /.row -->
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-hover table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>noSimulators</th>
-                                        <th>noNodes</th>
-                                        <th>Frequency</th>
-                                    </tr>
-                                </thead>
-                                <tbody data-bind="foreach: simulations.entries">
-
-                                    <tr data-bind="css:{ active: isActive }, click: $parent.selectSimulation.bind($parent)">
-                                        <td data-bind="text:simulationId" />
-
-                                        <td style="width: 10">
-                                            <input data-bind="textInput: noSimulators" type="text" />
-                                        </td>
-                                        <td>
-                                            <input data-bind="textInput: noNodes" type="text" />
-                                        </td>
-                                        <td>
-                                            <input data-bind="textInput: frequency" type="text" />
-                                        </td>
-                                        <td>
-                                            <button data-bind="click: deleteSimulation" class="btn btn-default">Delete</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <button data-bind="click: addSimulation" type="submit" class="btn btn-default">Add new simulation</button>
-                        <hr/>
-                    </div>
-                </div>
 
                 <div class="row">
-                    <div class="col-lg-12">
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-hover table-striped">
 
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Provision</th>
-                                        <th>Test</th>
-                                        <th>Start</th>
-                                        <th>Stop</th>
-                                        <th>Delete</th>
-                                        <th>Reboot</th>
-                                        <th>Update twin</th>
-                                        <th>Twin patch</th>
-                                        <th>Frequency</th>
-                                        <th>Payload</th>
-                                        <th>Primary key</th>
-                                        <th>IoT Hub</th>
-                                        <th>Runtime</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody data-bind="foreach: simulators.entries">
-
-                                    <tr data-bind="css:{ active: isActive }, click: $parent.selectSimulator.bind($parent)">
-                                        <td data-bind="text:simulatorId" />
-
-                                        <td>
-                                            <button data-bind="click: provisionDevice" class="btn btn-primary">Provision</button>
-                                        </td>
-                                        <td>
-                                            <button data-bind="click: testSimulator" class="btn btn-primary">Test</button>
-                                        </td>
-                                        <td>
-                                            <button data-bind="click: startSimulator" class="btn btn-success">Start</button>
-                                        </td>
-                                        <td>
-                                            <button data-bind="click: stopSimulator" class="btn btn-warning">Stop</button>
-                                        </td>
-                                        <td>
-                                            <button data-bind="click: deleteSimulator" class="btn btn-danger">Delete</button>
-                                        </td>
-                                        <td>
-                                            <button data-bind="click: rebootSimulator" class="btn btn-danger">Reboot</button>
-                                        </td>
-                                        <td>
-                                            <button data-bind="click: updateTwin" class="btn btn-danger">Update twin</button>
-                                        </td>
-                                        <td>
-                                            <input data-bind="textInput: deviceTwin" type="text" />
-                                        </td>
-                                        <td>
-                                            <input style="width:40px" data-bind="textInput: frequency" type="text" />
-                                        </td>
-                                        <td>
-                                            <input data-bind="textInput: payload" type="text" />
-                                        </td>
-                                        <td data-bind="text:primaryKey">
-                                        </td>
-                                        <td data-bind="text:iotHubNamespace">
-                                        </td>
-                                        <td data-bind="text:runtime" />
-                                        <td data-bind="text:status" />
-                                    </tr>
-                                    
-                                </tbody>
-                            </table>
-                        </div>
-                        <!--<button data-bind="click: startSimulator" type="submit" class="btn btn-default">Start simulating</button>-->
-                        <hr/>
-                    </div>
-                </div>
-
-
-                <div class="row">
                     <div class="col-lg-8">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <i class="fa fa-bar-chart-o fa-fw"></i> Active device simulators
-                                <div class="pull-right">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                                        Actions
-                                        <span class="caret"></span>
-                                    </button>
-                                        <ul class="dropdown-menu pull-right" role="menu">
-                                            <li><a href="#">Action</a>
-                                            </li>
-                                            <li><a href="#">Another action</a>
-                                            </li>
-                                            <li><a href="#">Something else here</a>
-                                            </li>
-                                            <li class="divider"></li>
-                                            <li><a href="#">Separated link</a>
-                                            </li>
-                                        </ul>
+                        <form lpformnum="1">
+
+                            <div class="form-group row">
+                                <label for="exampleInputEmail1">Simulation name</label>
+                                <input data-bind="textInput: simulation.name" class="form-control lastpassClearHidden" style='background-position: 98% 50%; background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAYAAABSO15qAAAAAXNSR0IArs4c6QAAAPhJREFUOBHlU70KgzAQPlMhEvoQTg6OPoOjT+JWOnRqkUKHgqWP4OQbOPokTk6OTkVULNSLVc62oJmbIdzd95NcuGjX2/3YVI/Ts+t0WLE2ut5xsQ0O+90F6UxFjAI8qNcEGONia08e6MNONYwCS7EQAizLmtGUDEzTBNd1fxsYhjEBnHPQNG3KKTYV34F8ec/zwHEciOMYyrIE3/ehKAqIoggo9inGXKmFXwbyBkmSQJqmUNe15IRhCG3byphitm1/eUzDM4qR0TTNjEixGdAnSi3keS5vSk2UDKqqgizLqB4YzvassiKhGtZ/jDMtLOnHz7TE+yf8BaDZXA509yeBAAAAAElFTkSuQmCC"); background-repeat: no-repeat; background-attachment: scroll; cursor: auto; background-size: 16px 18px;' type="text" placeholder="Enter simulation name">
+                                <small class="form-text text-muted" id="nameHelp">Only stored for reference.</small>
+                            </div>
+
+                            <div class="form-group  row">
+                                <label for="exampleSelect1">Simulator preset</label>
+                                <select class="form-control" id="simulationType" data-bind="options: simulation.presets, optionsText: 'name',value:simulation.selectedPreset"></select>
+                                <div class="col-4"><button class="btn btn-primary row" data-bind="click: loadPreset" type="submit">Load preset</button></div>
+
+
+                            </div>
+
+
+                            <div class="form-group row">
+                                <label>Simulation config</label>
+                                <textarea class="form-control" rows="5" data-bind="textInput: simulation.configuration"></textarea>
+                                <div id="presetInputWarning" style="color:red">Invalid JSON causing parse failure.</div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="exampleTextarea">Payload template</label>
+                                <label class="custom-file">
+                                    <input type="file" id="file" class="custom-file-input">
+                                    <span class="custom-file-control"></span>
+                                </label>
+                            </div>
+                            <div class="form-group row">
+                                <label>Payload template</label>
+                                <textarea class="form-control" rows="10" data-bind="textInput: simulation.payload"></textarea>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="form-group row ">
+                                        <label for="example-datetime-local-input" class="col-2 col-form-label">Start</label>
+                                        <div class="col-10">
+                                            <input class="form-control" type="datetime-local" value="2011-08-19T13:45:00" id="example-datetime-local-input">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group row">
+                                        <label for="example-datetime-local-input" class="col-2 col-form-label">End</label>
+                                        <div class="col-10">
+                                            <input class="form-control" type="datetime-local" value="2011-08-19T13:45:00" id="example-datetime-local-input">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <!-- /.panel-heading -->
-                            <div class="panel-body">
-                                <div id="morris-area-chart"></div>
+                            <div class="form-check row">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox">
+                                    Auto-run
+                                </label>
                             </div>
-                            <!-- /.panel-body -->
-                        </div>
-                        <!-- /.panel -->
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <i class="fa fa-bar-chart-o fa-fw"></i> Simulations
-
-                            </div>
-                            <!-- /.panel-heading -->
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-lg-10">
-
-                                        <!-- /.table-responsive -->
-                                    </div>
-                                    <!-- /.col-lg-4 (nested) -->
-
-                                    <!-- /.col-lg-8 (nested) -->
-                                </div>
-                                <!-- /.row -->
-                            </div>
-                            <!-- /.panel-body -->
-                        </div>
-
+                            <br />
+                            <button class="btn btn-primary row" type="submit">Confirm</button>
+                            <br />
+                        </form>
                     </div>
-                    <!-- /.col-lg-8 -->
-                    <div class="col-lg-4">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <i class="fa fa-bell fa-fw"></i> Notifications Panel
-                            </div>
-                            <!-- /.panel-heading -->
-                            <div class="panel-body">
-                                <div class="list-group">
-                                    <a href="#" class="list-group-item">
-                                        <i class="fa fa-comment fa-fw"></i> New Comment
-                                        <span class="pull-right text-muted small"><em>4 minutes ago</em>
-                                    </span>
-                                    </a>
-                                    <a href="#" class="list-group-item">
-                                        <i class="fa fa-twitter fa-fw"></i> 3 New Followers
-                                        <span class="pull-right text-muted small"><em>12 minutes ago</em>
-                                    </span>
-                                    </a>
-                                    <a href="#" class="list-group-item">
-                                        <i class="fa fa-envelope fa-fw"></i> Message Sent
-                                        <span class="pull-right text-muted small"><em>27 minutes ago</em>
-                                    </span>
-                                    </a>
-                                    <a href="#" class="list-group-item">
-                                        <i class="fa fa-tasks fa-fw"></i> New Task
-                                        <span class="pull-right text-muted small"><em>43 minutes ago</em>
-                                    </span>
-                                    </a>
-                                    <a href="#" class="list-group-item">
-                                        <i class="fa fa-upload fa-fw"></i> Server Rebooted
-                                        <span class="pull-right text-muted small"><em>11:32 AM</em>
-                                    </span>
-                                    </a>
-                                    <a href="#" class="list-group-item">
-                                        <i class="fa fa-bolt fa-fw"></i> Server Crashed!
-                                        <span class="pull-right text-muted small"><em>11:13 AM</em>
-                                    </span>
-                                    </a>
-                                    <a href="#" class="list-group-item">
-                                        <i class="fa fa-warning fa-fw"></i> Server Not Responding
-                                        <span class="pull-right text-muted small"><em>10:57 AM</em>
-                                    </span>
-                                    </a>
-                                    <a href="#" class="list-group-item">
-                                        <i class="fa fa-shopping-cart fa-fw"></i> New Order Placed
-                                        <span class="pull-right text-muted small"><em>9:49 AM</em>
-                                    </span>
-                                    </a>
-                                    <a href="#" class="list-group-item">
-                                        <i class="fa fa-money fa-fw"></i> Payment Received
-                                        <span class="pull-right text-muted small"><em>Yesterday</em>
-                                    </span>
-                                    </a>
-                                </div>
-                                <!-- /.list-group -->
-                                <a href="#" class="btn btn-default btn-block">View All Alerts</a>
-                            </div>
-                            <!-- /.panel-body -->
-                        </div>
-                        <!-- /.panel -->
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <i class="fa fa-bar-chart-o fa-fw"></i> Donut Chart Example
-                            </div>
-                            <div class="panel-body">
-                                <div id="morris-donut-chart"></div>
-                                <a href="#" class="btn btn-default btn-block">View Details</a>
-                            </div>
-                            <!-- /.panel-body -->
-                        </div>
-                        <!-- /.panel -->
-
-                        <!-- /.panel .chat-panel -->
-                    </div>
-                    <!-- /.col-lg-4 -->
                 </div>
-            </div>
-            <div id="mainDivConfig">
-
                 <div class="row">
-                    <div class="col-lg-12">
-                        <h1 class="page-header">Simulation Configuration</h1>
+                    <div class="col-lg-12 col-md-7 col-sm-6">
+                        <h1>Simulation output</h1>
                     </div>
-                    <!-- /.col-lg-12 -->
-                </div>
-                <!-- /.row -->
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                Basic Form Elements
-                            </div>
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <form role="form">
-                                            <div class="form-group">
-                                                <label>Frequency</label>
-                                                <input class="form-control" data-bind="textInput: simulation.frequency" type="text" />
-                                                <p class="help-block">In seconds.</p>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Number of device simulators</label>
-                                                <input class="form-control" data-bind="textInput: simulation.noSimulators" type="text" />
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Number of simulator nodes</label>
-                                                <input class="form-control" data-bind="textInput: simulation.noNodes" type="text" />
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Payload file</label>
-                                                <input type="file">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Payload content</label>
-                                                <textarea class="form-control" rows="3"></textarea>
-                                            </div>
+                    <div class="col-lg-12 jumbotron" style="overflow:auto; height:400px;">
 
+                        <p>This is a simple hero unit, a simple<br />umbotron-style component for calling extra attention to featured content or information.</p>
+                        <p>This is a simple hero unit, a simple<br />umbotron-style component for calling extra attention to featured content or information.</p>
+                        <p>
+                            This is a simple hero unit, a simple<br />umbotron-style component for calling extra attention to featured <br />content or information.
+                            This is a simple hero unit, a simple<br />umbotron-style component for calling extra attention to featured <br />content or information.
+                            This is a simple hero unit, a simple<br />umbotron-style component for calling extra attention to featured <br />content or information.
+                            This is a simple hero unit, a simple<br />umbotron-style component for calling extra attention to featured <br />content or information.
+                            This is a simple hero unit, a simple<br />umbotron-style component for calling extra attention to featured <br />content or information.
+                        </p>
 
-
-
-                                            <div class="form-group">
-                                                <label>Node size</label>
-                                                <select class="form-control">
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                                <option>5</option>
-                                            </select>
-                                            </div>
-
-                                            <button type="submit" class="btn btn-default">Start Simulation</button>
-                                            <button type="reset" class="btn btn-default">Delete simulation</button>
-                                        </form>
-                                    </div>
-                                    <!-- /.col-lg-6 (nested) -->
-                                    <!-- /.col-lg-6 (nested) -->
-                                </div>
-                                <!-- /.row (nested) -->
-                            </div>
-                            <!-- /.panel-body -->
-                        </div>
-                        <!-- /.panel -->
                     </div>
-                    <!-- /.col-lg-12 -->
                 </div>
-                <!-- /.row -->
+
+
             </div>
+
             <div id=""></div>
         </div>
-        <!-- /.row -->
-        </div>
+        <script type="text/javascript">
 
-        <!--Main DIV Configuration-->
+            function selectMainDiv(mainDiv) {
+                //alert($("[id^='mainDiv']" ).length);
+                $("[id^='mainDiv']").each(function () {
 
+                    if (this.id != mainDiv) {
+                        $(this).hide();
+                    }
+                })
 
-        <!-- /#page-wrapper -->
+                $("#" + mainDiv).show();
 
+            }
+
+            selectMainDiv("mainDivHome");
+        </script>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
     </div>
-    <!-- /#wrapper -->
-
-    <!-- jQuery -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="vendor/metisMenu/metisMenu.min.js"></script>
-
-    <!-- Morris Charts JavaScript -->
-    <script src="vendor/raphael/raphael.min.js"></script>
-    <script src="vendor/morrisjs/morris.min.js"></script>
-    <script src="data/morris-data.js"></script>
-
-    <script src="js/jquery.js"></script>
-    <script src="js/what-input.js"></script>
-    <script src="js/foundation.js"></script>
-    <script src="js/app.js"></script>
-
-    <!-- Custom Theme JavaScript -->
-    <script src="js/sb-admin-2.js"></script>
-
-    <script type="text/javascript">
-        $("#start").click(function () {
-            ds.rpc.make('start-test', { frequency: $("#frequency").val(), messageSize: 2000 }, (err, result) => { });
-        })
-
-        $("#stop").click(function () {
-            ds.rpc.make('stop-test', {}, (err, result) => { });
-        })
-
-
-
-        function selectMainDiv(mainDiv) {
-            //alert($("[id^='mainDiv']" ).length);
-            $("[id^='mainDiv']").each(function () {
-
-                if (this.id != mainDiv) {
-                    $(this).hide();
-                }
-            })
-
-            $("#" + mainDiv).show();
-
-        }
-
-        selectMainDiv("mainDivDashboard");
-    </script>
-
 </body>
 
 </html>

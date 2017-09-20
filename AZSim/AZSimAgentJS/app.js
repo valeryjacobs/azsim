@@ -13,7 +13,7 @@ var client;
 var refreshIntervalId;
 var simulator;
 const deepstream = require('deepstream.io-client-js');
-const dsClient = deepstream('ws://40.118.108.105:6020').login();
+const dsClient = deepstream(process.env.AZSSIM_ComHub).login();
 
 const simulatorId = dsClient.getUid();
 

@@ -3,17 +3,20 @@
 var Registry = require('azure-iothub').Registry;
 var Client = require('azure-iothub').Client;
 var iotHub = require('azure-iothub');
-var secrets = require('./secrets.js');
 var figlet = require('figlet');
 var colors = require('colors');
 var uuid = require('uuid');
 
 const deepstream = require('deepstream.io-client-js')
-const dsClient = deepstream('ws://40.118.108.105:6020').login()
+const dsClient = deepstream(process.env.AZSSIM_ComHub).login()
 
-figlet('Device Manager', function (err, data) { console.log(data); console.log('Running...') });
+figlet('Device Manager', function (err, data) {
+    console.log(data);
+    console.log('Connecting to ' + process.env.AZSSIM_ComHub);
+    console.log('Running...')
+});
 
-var connectionString = secrets.iotHubConnectionString;
+var connectionString = process.env.AZSIM_IoTHubConnectionString;
 var registry = Registry.fromConnectionString(connectionString);
 var client = Client.fromConnectionString(connectionString);
 
@@ -35,13 +38,13 @@ var provisionDevice = function (deviceId) {
     registry.create(device, function (err, deviceInfo, res) {
 
         if (err) {
-            console.log('err' + err);
+            console.log ('err' + err);
             registry.get(device.deviceId, printDeviceInfo);
         }
         if (deviceInfo) {
             console.log('Device created.' + deviceInfo.authentication.symmetricKey.primaryKey);
             var simulator = dsClient.record.getRecord(device.deviceId);
-            simulator.set('iotHubNamespace', secrets.iotHubNamespace);
+            simulator.set('iotHubNamespace', process.env.AZSIM_IoTHubNamespace);
             simulator.set('primaryKey', deviceInfo.authentication.symmetricKey.primaryKey);
 
             registry.getTwin(device.deviceId, function (err, twin) {
@@ -107,7 +110,6 @@ var startRebootDevice = function (deviceId) {
             console.error("Direct method error: " + err.message);
         } else {
             console.log(result);
-            //console.log("Successfully invoked the device to reboot.");
         }
     });
 };
@@ -143,7 +145,3 @@ dsClient.rpc.provide('devicemanager', (data, response) => {
 
     }
 });
-
-
-
-//setInterval(queryTwinLastReboot, 2000);

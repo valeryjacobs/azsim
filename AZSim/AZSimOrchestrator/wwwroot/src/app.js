@@ -1,6 +1,5 @@
-ds = deepstream('ws://40.118.108.105:6020');
+ds = deepstream('ws://' + getParameterByName('AZSIM_ComHub_IP') + ':6020');
 //ds = deepstream('ws://localhost:6020');
-//ds = deepstream('wss://154.deepstreamhub.com?apiKey=b63570d7-d7a3-40a0-adb8-51d810024e3a');
 
 koTools = new KoTools(ko);
 
@@ -425,3 +424,13 @@ NodeViewModel = function () {
     this.memLeft = koTools.getObservable(this.record, 'memLeft');
     this.noSimulators = koTools.getObservable(this.record, 'noSimulators');
 };
+
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
