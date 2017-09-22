@@ -13,17 +13,15 @@ namespace AZSimOrchestrator.Controllers
         [Route("login")]
         public HttpResponseMessage Login([FromBody] dynamic authData)
         {
-            if (authData.username == "valery")
+            //TODO: Implement AAD integration
+            if (authData.username == "validusername" & authData.userPWD == "validpwd")
             {
-                
-               
                 return new HttpResponseMessage(System.Net.HttpStatusCode.Accepted);
             }
             else
             {
                 return new HttpResponseMessage(System.Net.HttpStatusCode.Unauthorized);
             }
-            
         }
     }
 }

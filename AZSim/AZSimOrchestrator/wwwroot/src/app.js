@@ -1,5 +1,4 @@
 ds = deepstream('ws://' + getParameterByName('AZSIM_ComHub_IP') + ':6020');
-//ds = deepstream('ws://localhost:6020');
 
 koTools = new KoTools(ko);
 
@@ -48,9 +47,6 @@ $('#listtable').on('click', '.clickable-row', function (event) {
     $(this).addClass('active').siblings().removeClass('active');
 });
 
-/**
- * Class AppViewModel
- */
 AppViewModel = function () {
 
     this.users = koTools.getViewList(UserListEntryViewModel, ds.record.getList('users'));
@@ -83,18 +79,11 @@ AppViewModel.prototype.loadPreset = function () {
     var cJSON = JSON.stringify(presetObj.configuration);
     var pJSON = presetObj.payloadTemplate;
 
-   // this.simulation..configuration('test');
     this.simulation.record.set('configuration',cJSON);
-    //this.simulation.payload(presetObj.payloadTemplate);
 };
 
 AppViewModel.prototype.addSimulation = function () {
-   // selectMainDiv('mainDivSimulation');
-  //  var newSimulationId = 'Simulation-' + ds.getUid();
-   // var record = ds.record.getRecord(newSimulationId);
-   // record.set('configuration', '{default:null}');
-     // koTools.getObservable(record, 'configuration');
-   // this.simulations.getList().addEntry(newSimulationId);
+ 
     selectMainDiv('mainDivSimulation');
     var name = 'simulation-' + ds.getUid(),
         record = ds.record.getRecord(name);
@@ -103,8 +92,6 @@ AppViewModel.prototype.addSimulation = function () {
     this.simulations.getList().addEntry(name);
 
     this.simulation.record.setName(name);
-
-   // this.simulation.record = record;
 
 };
 
@@ -169,9 +156,7 @@ AppViewModel.prototype.selectSimulatorHost = function (simulatorHostAppViewModel
 
 };
 
-/**
- * Class UserListEntryViewModel
- */
+
 StatusViewModel = function () {
     this.message = ko.observable("Ready");
     
@@ -320,7 +305,6 @@ SimulatorHostListEntryViewModel.prototype.runProcess = function (viewModel, even
     event.stopPropagation();
     console.log('Start process on sim host: ' + this.record.name);
 
-    //ds.rpc.make(this.record.name, 'test', (error, result) => {
     ds.rpc.make(this.record.name, { command: "runNodeApp", commandParams: "C:\\Code\\azsim\\AZSim\\AZSimAgentJS\\app.js" }, (error, result) => {
         if (result) {
             console.log('Process run.'.red);
