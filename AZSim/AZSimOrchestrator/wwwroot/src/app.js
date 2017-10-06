@@ -3,13 +3,25 @@ ds = deepstream('ws://' + getParameterByName('AZSIM_ComHub_IP') + ':6020');
 koTools = new KoTools(ko);
 
 ds.login({ username: 'simulator-instance-' + ds.getUid() }, function () {
+    console.log('login success');
     ko.applyBindings(new AppViewModel());
+    UpdateBanner();
 });
 
 var iothubClientSimulatorPresets = {};
 $.getJSON('./presets/iothubclientsimulator.json', function (data) {
     iothubClientSimulatorPresets = data;
 });
+
+
+var refreshId = setInterval(function () {
+    UpdateBanner();
+}, 1000);
+
+function UpdateBanner() {
+    $('#noSimulations').html($("#simulationstable tr").length - 1);
+    $('#noSimulators').html($("#simulatorstable tr").length - 1);
+}
 
 
 function setupChart() {
@@ -60,16 +72,6 @@ AppViewModel = function () {
     this.simulatorHost = new SimulatorHostViewModel();
     this.node = new NodeViewModel();
     this.status = new StatusViewModel();
-
-
-    this.noSimulations = ko.computed(function () {
-        var mlist = ds.record.getList('simulations');
-        var entr = mlist.getEntries();
-
-        return entr.length;
-    }); 
-    
-   
 };
 
 AppViewModel.prototype.loadPreset = function () {
@@ -79,21 +81,27 @@ AppViewModel.prototype.loadPreset = function () {
     var cJSON = JSON.stringify(presetObj.configuration);
     var pJSON = presetObj.payloadTemplate;
 
-    this.simulation.record.set('configuration',cJSON);
+    this.simulation.record.set('configuration', cJSON);
 };
 
+
 AppViewModel.prototype.addSimulation = function () {
- 
+
     selectMainDiv('mainDivSimulation');
     var name = 'simulation-' + ds.getUid(),
         record = ds.record.getRecord(name);
 
-    record.set({simulationId:name, configuration: 'testconfig', payload: 'payloadtemplate1',status:'-',startTime:'now', endTime:'later'});
+    record.set({ simulationId: name, configuration: 'testconfig', payload: 'payloadtemplate1', status: '-', startTime: 'now', endTime: 'later' });
     this.simulations.getList().addEntry(name);
 
     this.simulation.record.setName(name);
 
 };
+
+AppViewModel.prototype.confirmSimulation = function () {
+    selectMainDiv('mainDivHome');
+};
+
 
 AppViewModel.prototype.startSimulator = function () {
     const list = ds.record.getList('simulators');
@@ -101,7 +109,7 @@ AppViewModel.prototype.startSimulator = function () {
 
     if (entries.length > 0) {
         ds.rpc.make(list.getEntries()[entries.length - 1], { frequency: 4, payloadSize: 10 }, (error, result) => {
-            // error = null, result = 11
+            //error = null, result = 11
         });
     }
 };
@@ -124,13 +132,6 @@ AppViewModel.prototype.addUser = function () {
     record.set({ firstname: 'Admin', lastname: 'Admin', role: '-' });
     this.users.getList().addEntry(name);
 };
-
-//AppViewModel.prototype.selectUser = function (userAppViewModel) {
-//    this.user.record.setName(userAppViewModel.record.name);
-//    this.users.callOnEntries('isActive', [false]);
-//    userAppViewModel.isActive(true);
-
-//};
 
 AppViewModel.prototype.selectSimulation = function (simulationAppViewModel) {
     this.simulation.record.setName(simulationAppViewModel.record.name);
@@ -159,7 +160,7 @@ AppViewModel.prototype.selectSimulatorHost = function (simulatorHostAppViewModel
 
 StatusViewModel = function () {
     this.message = ko.observable("Ready");
-    
+
 
 };
 UserListEntryViewModel = function (userRecordName, viewList) {
@@ -339,7 +340,8 @@ SimulationViewModel = function () {
     this.presets = iothubClientSimulatorPresets.presets;
     this.selectedPreset = ko.observable();
 
- 
+
+
     //this.configuration = ko.computed({
     //    read: function () {
     //        $('#presetInputWarning').hide();

@@ -13,9 +13,17 @@ var client;
 var refreshIntervalId;
 var simulator;
 const deepstream = require('deepstream.io-client-js');
-const dsClient = deepstream(process.env.AZSSIM_ComHub).login();
+//if (process.env.AZSSIM_ComHub) {
+//    console.log(process.env.AZSSIM_ComHub);
+   
+//}
+//else {
+//    console.log('Environment variable AZSSIM_ComHub not set.');
+//}
+const dsClient = deepstream('ws://40.118.108.105:6020').login();
 
 const simulatorId = dsClient.getUid();
+
 
 figlet('Device Simulator', function (err, data) {
     console.log(data);
@@ -42,6 +50,8 @@ dsClient.record.getRecord(simulatorId).set({
 
 const list = dsClient.record.getList('simulators');
 list.addEntry(simulatorId);
+
+var x = list.getEntries();
 
 dsClient.rpc.provide(simulatorId, (data, response) => {
 
@@ -78,14 +88,13 @@ function test() {
 
         message.
 
-        client.sendEvent(message, callBack('send'));
+            client.sendEvent(message, callBack('send'));
         console.log('Sent message: '.cyan + message.getData().cyan);
         appendLog('Message send ' + message.getData());
     }
 }
 
-function appendLog(output)
-{
+function appendLog(output) {
     if (logOutputEnabled) {
         simulator['log'] = simulator['log'] + '\n\r' + output;
     }
@@ -99,13 +108,13 @@ function startSimulation() {
     var connectionString = 'HostName=' + simulator.get('iotHubNamespace') + '.azure-devices.net;DeviceId=' + simulatorId + ';SharedAccessKey=' + simulator.get('primaryKey');
     console.log('conn:' + connectionString);
     client = clientFromConnectionString(connectionString);
-    
+
     client.open(connectCallback);
     clearInterval(refreshIntervalId);
 
     refreshIntervalId = setInterval(function () {
 
-        
+
         var payload = JSON.parse(simulator.get('payload'));
 
         payload.sensorA = measurementValue;
@@ -124,7 +133,7 @@ function startSimulation() {
 
 function callBack(operation) {
     return function printResult(err, res) {
-  
+
         if (err) {
             console.log(operation + ': ' + err.toString());
             appendLog(operation + ': ' + err.toString());

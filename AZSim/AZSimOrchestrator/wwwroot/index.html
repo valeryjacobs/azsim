@@ -60,7 +60,7 @@
                             <div class="card card-inverse card-success text-xs-center">
                                 <div class="card-block">
                                     <blockquote class="card-blockquote">
-                                        <p><i class="fa fa-play-circle fa-3x pull-left"></i><h1><span data-bind="text:noSimulations"></span></h1> Active simulations</p>
+                                        <p><i class="fa fa-play-circle fa-3x pull-left"></i><h1><span id="noSimulations"></span></h1> Active simulations</p>
 
                                     </blockquote>
                                 </div>
@@ -72,7 +72,7 @@
                             <div class="card card-inverse card-success text-xs-center">
                                 <div class="card-block">
                                     <blockquote class="card-blockquote">
-                                        <p><i class="fa fa-server fa-3x pull-left"></i><h1>4</h1>Simulation hosts</p>
+                                        <p><i class="fa fa-server fa-3x pull-left"></i><h1><span id="noSimulators"></span></h1>Simulators</p>
 
                                     </blockquote>
                                 </div>
@@ -98,7 +98,7 @@
                     <h1><i class="fa fa-play-circle"></i> Simulations</h1>
                 </div>
                 <div class="row">
-                    <table class="table table-striped table-hover table-bordered" id="listtable">
+                    <table class="table table-striped table-hover table-bordered" id="simulationstable">
                         <thead class="thead-inverse">
                             <tr>
                                 <th>Delete</th>
@@ -137,7 +137,7 @@
                     <h1><i class="fa fa-th"></i> Simulators</h1>
                 </div>
                 <div class="row">
-                    <table class="table table-striped table-hover table-bordered">
+                    <table class="table table-striped table-hover table-bordered" id="simulatorstable">
                         <thead class="thead-inverse">
                             <tr>
                                 <th>ID</th>
@@ -185,7 +185,8 @@
                                 <td>
                                     <input data-bind="textInput: payload" type="text" />
                                 </td>
-                                <td data-bind="text:primaryKey().substring(0,6) + '...'"></td>
+                                <td data-bind="text:primaryKey"></td>
+                                <!--<td data-bind="text:primaryKey().substring(0,6) + '...'"></td>-->
                                 <td data-bind="text:iotHubNamespace"></td>
                                 <td data-bind="text:runtime" />
                                 <td data-bind="text:status" />
@@ -315,7 +316,7 @@
                                 </label>
                             </div>
                             <br />
-                            <button class="btn btn-primary row" type="submit">Confirm</button>
+                            <button class="btn btn-primary row" data-bind="click: confirmSimulation">Confirm</button>
                             <br />
                         </form>
                     </div>

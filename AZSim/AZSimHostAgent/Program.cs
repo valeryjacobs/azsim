@@ -11,6 +11,11 @@ namespace AZSimHostAgent
         static  IDeepStreamRecord record;
         static void Main(string[] args)
         {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+           
+            Console.WriteLine("AZSim - Host agent ");
+            Console.ForegroundColor = ConsoleColor.White;
+
             MainAsync(args).GetAwaiter().GetResult();
 
             Console.Read();

@@ -7,12 +7,12 @@ var figlet = require('figlet');
 var colors = require('colors');
 var uuid = require('uuid');
 
-const deepstream = require('deepstream.io-client-js')
-const dsClient = deepstream(process.env.AZSSIM_ComHub).login()
+const deepstream = require('deepstream.io-client-js');
+const dsClient = deepstream(process.env.AZSIM_ComHub).login();
 
 figlet('Device Manager', function (err, data) {
     console.log(data);
-    console.log('Connecting to ' + process.env.AZSSIM_ComHub);
+    console.log('Connecting to ' + process.env.AZSIM_ComHub);
     console.log('Running...')
 });
 
